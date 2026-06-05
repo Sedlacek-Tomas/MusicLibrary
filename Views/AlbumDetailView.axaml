@@ -1,0 +1,98 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:MusicLibrary.ViewModels"
+             xmlns:dataGrid="using:Avalonia.Controls"
+             x:Class="MusicLibrary.Views.AlbumDetailView"
+             x:DataType="vm:AlbumDetailViewModel">
+
+  <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="16">
+
+    <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto,Auto" Margin="0,0,0,12">
+      <Button Grid.Column="0" Content="← Zpět"
+              Command="{Binding GoBackCommand}" Margin="0,0,12,0"/>
+      <TextBlock Grid.Column="1" FontSize="22" FontWeight="Bold"
+                 VerticalAlignment="Center"
+                 Text="{Binding Album.Title}"/>
+      <TextBlock Grid.Column="2" FontSize="14" Opacity="0.6"
+                 VerticalAlignment="Center" Margin="12,0"
+                 Text="{Binding Album.Artist}"/>
+      <Button Grid.Column="3" Content="✏ Upravit album"
+              Command="{Binding EditAlbumCommand}"/>
+    </Grid>
+
+    <Border Grid.Row="1" Background="#10FFFFFF" CornerRadius="6"
+            Padding="12" Margin="0,0,0,12">
+      <StackPanel Orientation="Horizontal" Spacing="24">
+        <TextBlock>
+          <Run Text="Žánr: " FontWeight="SemiBold"/>
+          <Run Text="{Binding Album.GenreName}"/>
+        </TextBlock>
+        <TextBlock>
+          <Run Text="Rok: " FontWeight="SemiBold"/>
+          <Run Text="{Binding Album.Year}"/>
+        </TextBlock>
+      </StackPanel>
+    </Border>
+
+    <Grid Grid.Row="2" RowDefinitions="Auto,*">
+      <TextBlock Grid.Row="0" Text="Skladby" FontSize="16"
+                 FontWeight="SemiBold" Margin="0,0,0,8"/>
+      <DataGrid Grid.Row="1"
+                ItemsSource="{Binding Tracks}"
+                IsReadOnly="True"
+                CanUserSortColumns="False"
+                GridLinesVisibility="Horizontal">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="#"     Binding="{Binding TrackNo}"          Width="40"/>
+          <DataGridTextColumn Header="Název" Binding="{Binding Title}"             Width="*"/>
+          <DataGridTextColumn Header="Délka" Binding="{Binding DurationFormatted}" Width="70"/>
+          <DataGridTemplateColumn Header="Akce" Width="120">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal" Spacing="4" Margin="4,0">
+                  <Button Content="✏" Padding="6,2"
+                          Command="{Binding $parent[UserControl].((vm:AlbumDetailViewModel)DataContext).StartEditTrackCommand}"
+                          CommandParameter="{Binding}"/>
+                  <Button Content="🗑" Padding="6,2"
+                          Command="{Binding $parent[UserControl].((vm:AlbumDetailViewModel)DataContext).DeleteTrackCommand}"
+                          CommandParameter="{Binding}"/>
+                </StackPanel>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Grid>
+
+    <Border Grid.Row="3" Background="#10FFFFFF" CornerRadius="6"
+            Padding="12" Margin="0,12,0,0">
+      <StackPanel Spacing="8">
+        <TextBlock FontWeight="SemiBold" FontSize="14">
+          <TextBlock.Text>
+            <Binding Path="EditingTrack" FallbackValue="Přidat skladbu">
+              <Binding.TargetNullValue>Přidat skladbu</Binding.TargetNullValue>
+            </Binding>
+          </TextBlock.Text>
+        </TextBlock>
+
+        <TextBlock Text="{Binding TrackError}" Foreground="Red"
+                   IsVisible="{Binding TrackError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+        <Grid ColumnDefinitions="*,120,80,Auto,Auto">
+          <TextBox Grid.Column="0" Watermark="Název skladby *"
+                   Text="{Binding TrackTitle}" Margin="0,0,8,0"/>
+          <TextBox Grid.Column="1" Watermark="Délka (3:45)"
+                   Text="{Binding TrackDuration}" Margin="0,0,8,0"/>
+          <TextBox Grid.Column="2" Watermark="# stopy"
+                   Text="{Binding TrackNo}" Margin="0,0,8,0"/>
+          <Button  Grid.Column="3" Content="💾 Uložit"
+                   Command="{Binding SaveTrackCommand}" Margin="0,0,4,0"/>
+          <Button  Grid.Column="4" Content="Zrušit"
+                   Command="{Binding CancelEditCommand}"
+                   IsVisible="{Binding EditingTrack, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+        </Grid>
+      </StackPanel>
+    </Border>
+
+  </Grid>
+</UserControl>

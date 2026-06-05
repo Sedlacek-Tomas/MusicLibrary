@@ -1,0 +1,50 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:MusicLibrary.ViewModels"
+             xmlns:models="using:MusicLibrary.Models"
+             x:Class="MusicLibrary.Views.AlbumListView"
+             x:DataType="vm:AlbumListViewModel">
+
+  <Grid RowDefinitions="Auto,*,Auto" Margin="16">
+
+    <TextBlock Grid.Row="0" Text="🎵 Hudební sbírka"
+               FontSize="24" FontWeight="Bold" Margin="0,0,0,16"/>
+
+    <ListBox Grid.Row="1"
+             ItemsSource="{Binding Albums}"
+             SelectedItem="{Binding SelectedAlbum}">
+      <ListBox.ItemTemplate>
+          <DataTemplate x:DataType="models:Album">
+          <Border Padding="8" CornerRadius="4">
+            <Grid ColumnDefinitions="*,Auto,Auto">
+              <StackPanel Grid.Column="0" Spacing="2">
+                <TextBlock FontSize="15" FontWeight="SemiBold"
+                           Text="{Binding Title}"/>
+                <TextBlock FontSize="12" Opacity="0.7"
+                           Text="{Binding Artist}"/>
+                <TextBlock FontSize="11" Opacity="0.5"
+                           Text="{Binding GenreName}"/>
+              </StackPanel>
+              <TextBlock Grid.Column="1" VerticalAlignment="Center"
+                         Margin="8,0" Opacity="0.5"
+                         Text="{Binding Year}"/>
+              <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
+                <Button Content="Detail"
+                        Command="{Binding $parent[UserControl].((vm:AlbumListViewModel)DataContext).OpenDetailCommand}"
+                        CommandParameter="{Binding}"/>
+                <Button Content="🗑"
+                        Command="{Binding $parent[UserControl].((vm:AlbumListViewModel)DataContext).DeleteAlbumCommand}"
+                        CommandParameter="{Binding}"/>
+              </StackPanel>
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <Button Grid.Row="2" Content="+ Přidat album"
+            Command="{Binding OpenAddFormCommand}"
+            HorizontalAlignment="Right" Margin="0,12,0,0"
+            Padding="12,6"/>
+  </Grid>
+</UserControl>

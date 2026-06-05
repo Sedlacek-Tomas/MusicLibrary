@@ -1,0 +1,54 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:MusicLibrary.ViewModels"
+             x:Class="MusicLibrary.Views.AlbumFormView"
+             x:DataType="vm:AlbumFormViewModel"
+             Width="400">
+
+  <StackPanel Margin="24" Spacing="12">
+
+    <TextBlock Text="{Binding WindowTitle}"
+               FontSize="20" FontWeight="Bold" Margin="0,0,0,8"/>
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Název alba *"/>
+      <TextBox Text="{Binding Title}" Watermark="např. Abbey Road"/>
+      <TextBlock Text="{Binding TitleError}" Foreground="Red"
+                 IsVisible="{Binding TitleError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+    </StackPanel>
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Interpret *"/>
+      <TextBox Text="{Binding Artist}" Watermark="např. The Beatles"/>
+      <TextBlock Text="{Binding ArtistError}" Foreground="Red"
+                 IsVisible="{Binding ArtistError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+    </StackPanel>
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Rok vydání"/>
+      <TextBox Text="{Binding Year}" Watermark="např. 1969"/>
+      <TextBlock Text="{Binding YearError}" Foreground="Red"
+                 IsVisible="{Binding YearError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+    </StackPanel>
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Žánr"/>
+      <ComboBox ItemsSource="{Binding Genres}"
+                SelectedItem="{Binding SelectedGenre}"
+                HorizontalAlignment="Stretch">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Name}"/>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="8"
+                HorizontalAlignment="Right" Margin="0,12,0,0">
+      <Button Content="Zrušit"    Command="{Binding CancelCommand}"/>
+      <Button Content="💾 Uložit" Command="{Binding SaveCommand}"/>
+    </StackPanel>
+
+  </StackPanel>
+</UserControl>

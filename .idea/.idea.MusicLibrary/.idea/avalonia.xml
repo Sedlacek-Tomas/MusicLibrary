@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="App.axaml" value="MusicLibrary.csproj" />
+        <entry key="Views/AlbumDetailView.axaml" value="MusicLibrary.csproj" />
+        <entry key="Views/AlbumFormView.axaml" value="MusicLibrary.csproj" />
+        <entry key="Views/AlbumListView.axaml" value="MusicLibrary.csproj" />
+        <entry key="Views/MainWindow.axaml" value="MusicLibrary.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
