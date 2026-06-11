@@ -46,6 +46,7 @@ public static class Services
         services.AddTransient<AlbumListViewModel>();
         services.AddTransient<AlbumDetailViewModel>();
         services.AddTransient<AlbumFormViewModel>();
+        services.AddTransient<StatsViewModel>();
 
         return services.BuildServiceProvider();
     }

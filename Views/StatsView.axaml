@@ -1,0 +1,60 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:MusicLibrary.ViewModels"
+             x:Class="MusicLibrary.Views.StatsView"
+             x:DataType="vm:StatsViewModel">
+
+  <Grid RowDefinitions="Auto,Auto,*" Margin="16">
+
+    <Grid Grid.Row="0" ColumnDefinitions="Auto,*" Margin="0,0,0,16">
+      <Button Grid.Column="0" Content="← Zpět"
+              Command="{Binding GoBackCommand}" Margin="0,0,12,0"/>
+      <TextBlock Grid.Column="1" Text="📊 Statistiky sbírky"
+                 FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+    </Grid>
+
+    <WrapPanel Grid.Row="1" Margin="0,0,0,16">
+      <Border Background="#10FFFFFF" CornerRadius="8" Padding="20,12" Margin="0,0,12,0" MinWidth="150">
+        <StackPanel>
+          <TextBlock Text="Celkem alb" FontSize="12" Opacity="0.6"/>
+          <TextBlock Text="{Binding TotalAlbums}" FontSize="32" FontWeight="Bold"/>
+        </StackPanel>
+      </Border>
+      <Border Background="#10FFFFFF" CornerRadius="8" Padding="20,12" Margin="0,0,12,0" MinWidth="150">
+        <StackPanel>
+          <TextBlock Text="Celkem skladeb" FontSize="12" Opacity="0.6"/>
+          <TextBlock Text="{Binding TotalTracks}" FontSize="32" FontWeight="Bold"/>
+        </StackPanel>
+      </Border>
+      <Border Background="#10FFFFFF" CornerRadius="8" Padding="20,12" Margin="0,0,12,0" MinWidth="180">
+        <StackPanel>
+          <TextBlock Text="Nejčastější žánr" FontSize="12" Opacity="0.6"/>
+          <TextBlock Text="{Binding MostPopularGenre}" FontSize="20" FontWeight="SemiBold"/>
+        </StackPanel>
+      </Border>
+      <Border Background="#10FFFFFF" CornerRadius="8" Padding="20,12" MinWidth="180">
+        <StackPanel>
+          <TextBlock Text="Nejčastější interpret" FontSize="12" Opacity="0.6"/>
+          <TextBlock Text="{Binding MostPopularArtist}" FontSize="20" FontWeight="SemiBold"/>
+        </StackPanel>
+      </Border>
+    </WrapPanel>
+
+    <Grid Grid.Row="2" RowDefinitions="Auto,*">
+      <TextBlock Grid.Row="0" Text="Přehled podle žánru"
+                 FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+      <DataGrid Grid.Row="1"
+                ItemsSource="{Binding GenreStats}"
+                IsReadOnly="True"
+                GridLinesVisibility="Horizontal"
+                CanUserSortColumns="True">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="Žánr"          Binding="{Binding Genre}"      Width="*"/>
+          <DataGridTextColumn Header="Počet alb"     Binding="{Binding AlbumCount}" Width="120"/>
+          <DataGridTextColumn Header="Počet skladeb" Binding="{Binding TrackCount}" Width="140"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Grid>
+
+  </Grid>
+</UserControl>

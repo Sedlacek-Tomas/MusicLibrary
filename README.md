@@ -91,3 +91,29 @@ MusicLibrary/
 - **žánr**: výběr z číselníku přes ComboBox
 - validace povinných polí s chybovými hláškami
 - data persistována v PostgreSQL přes Docker volume
+
+## ER Diagram
+
+```mermaid
+erDiagram
+    genres {
+        SERIAL id PK
+        VARCHAR50 name
+    }
+    albums {
+        SERIAL id PK
+        VARCHAR200 title
+        VARCHAR200 artist
+        INT year
+        INT genre_id FK
+    }
+    tracks {
+        SERIAL id PK
+        INT album_id FK
+        VARCHAR200 title
+        INT duration
+        INT track_no
+    }
+    genres ||--o{ albums : "1:N"
+    albums ||--o{ tracks : "1:N (CASCADE)"
+```

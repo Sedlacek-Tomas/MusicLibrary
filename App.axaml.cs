@@ -47,7 +47,8 @@ public partial class App : Application
 
         vm.OpenDetailRequested  += album => ShowAlbumDetail(mainVm, album);
         vm.OpenAddFormRequested += ()    => ShowAlbumForm(mainVm, null, () => ShowAlbumList(mainVm));
-
+        
+        vm.OpenStatsRequested += () => ShowStats(mainVm);
         await vm.LoadAsync();
         mainVm.CurrentViewModel = vm;
     }
@@ -81,6 +82,14 @@ public partial class App : Application
 
         await vm.LoadAsync(albumToEdit);  // ← počkej než se žánry načtou
         mainVm.CurrentViewModel = vm;     // ← pak teprve zobraz formulář
+    }
+    
+    private async void ShowStats(MainWindowViewModel mainVm)
+    {
+        var vm = _services!.GetRequiredService<StatsViewModel>();
+        vm.GoBackRequested += () => ShowAlbumList(mainVm);
+        await vm.LoadAsync();
+        mainVm.CurrentViewModel = vm;
     }
 
     // ── Helpers ─────────────────────────────────────────────────────────────
